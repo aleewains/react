@@ -1,6 +1,6 @@
 // import { useState } from "react";
 import "./App.css";
-import Converter from "./converter/currrencyConverter";
+// import Converter from "./converter/currrencyConverter";
 // import BgChanger from "./bgChanger";
 // import PassGenerator from "./passGenerator";
 
@@ -9,7 +9,8 @@ function App() {
     <>
       {/* <BgChanger /> */}
       {/* <PassGenerator /> */}
-      <Converter />
+      {/* <Converter /> */}
+      {/* <Me /> */}
     </>
   );
 }
