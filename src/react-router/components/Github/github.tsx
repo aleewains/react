@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router";
-type Data = Record<string, string>;
+// type Data = Record<string, string>;
 function Github() {
   // useLoaderData is used to load the data from the Route loader
   const data = useLoaderData();

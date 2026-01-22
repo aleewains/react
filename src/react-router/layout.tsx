@@ -6,7 +6,7 @@ function Layout() {
   return (
     <>
       <Header />
-      <Outlet /> //this will be dynamically changing
+      <Outlet />
       <Footer />
     </>
   );
