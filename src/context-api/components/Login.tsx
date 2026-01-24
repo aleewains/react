@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useUserContext } from "../context/userContextProvider";
 
 function Login() {
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const context = useUserContext();
+  // const { user, setUser } = useUserContext();
 
   if (!context) {
     throw new Error("hi");
@@ -13,7 +14,11 @@ function Login() {
 
   const handlesubmit = (e: React.MouseEvent<HTMLButtonElement> | undefined) => {
     if (e) e.preventDefault();
-    context.setUser({ username, password });
+    if (username) {
+      context.setUser({ username, password });
+      setUsername("");
+      setPassword("");
+    }
   };
   return (
     <div className="flex flex-col gap-2 max-w-sm ml-auto mr-auto">
@@ -23,14 +28,14 @@ function Login() {
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        className="bg-amber-100 p-3 rounded"
+        className="bg-amber-50 border-2 border-amber-400 p-3 rounded"
       />
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="bg-amber-100 p-3 rounded"
+        className="bg-amber-50 border-2 border-amber-400 p-3 rounded"
       />
       <button
         type="submit"
