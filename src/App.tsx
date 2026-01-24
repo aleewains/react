@@ -1,6 +1,7 @@
 // import { useState } from "react";
 import "./App.css";
-import Index from "./context-api";
+// import Index from "./context-api";
+import Todo from "./contextApi-localStorage/todo";
 
 // import router from "./react-router/router.tsx";
 // import { RouterProvider } from "react-router-dom";
@@ -16,7 +17,8 @@ function App() {
       {/* <Converter /> */}
       {/* <Me /> */}
       {/* <RouterProvider router={router} /> */}
-      <Index />
+      {/* <Index /> */}
+      <Todo />
     </>
   );
 }
