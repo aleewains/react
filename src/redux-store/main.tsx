@@ -1,61 +1,34 @@
-import { useEffect, useState } from "react";
-import { TodoContextProvider } from "./context/todoContext";
 import TodoForm from "./components/TodoForm";
 import TodoItem from "./components/TodoItem";
+import { useSelector } from "react-redux";
+// Define the shape of a single todo
+interface Todo {
+  id: string | number;
+  date: number;
+  todo: string;
+  completed: boolean;
+}
 
-function Todo() {
-  type Todo = {
-    id: number;
-    todo: string;
-    completed: boolean;
-  };
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const addTodo = (todo: Todo) => {
-    setTodos((prev) => [{ ...todo }, ...prev]);
-  };
-  const updateTodo = (id: number, updateTodo: Todo) => {
-    setTodos((prev) =>
-      prev.map((todo) => (todo.id === id ? updateTodo : todo)),
-    );
-  };
-  const deleteTodo = (id: number) => {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id));
-  };
-  const toggleComplete = (id: number) => {
-    setTodos((prev) =>
-      prev.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-      ),
-    );
-  };
-
-  useEffect(() => {
-    const storedTodos = localStorage.getItem("todos");
-    // 1. Only parse if storedData exists
-    if (storedTodos) {
-      const todos: Todo[] = JSON.parse(storedTodos);
-
-      //2. Set your state
-      if (todos && todos.length > 0) {
-        setTodos(todos);
-      }
+// Define the shape of your entire Redux state manually
+interface ManualRootState {
+  todos: Todo[];
+}
+function TodoRedux() {
+  const todos = useSelector((state: ManualRootState) => state.todos);
+  const arrangedTodos = [...todos].sort((a, b) => {
+    if (a.completed !== b.completed) {
+      return a.completed ? 1 : -1;
     }
-  }, []);
-
-  useEffect(() => {
-    //setting storage
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+    return b.date > a.date ? 1 : -1;
+  });
   return (
-    <TodoContextProvider
-      value={{ todos, addTodo, updateTodo, deleteTodo, toggleComplete }}
-    >
+    <div>
       <div className="bg-[#172842] min-h-screen py-12 px-4 selection:bg-green-500/30">
         <div className="w-full max-w-2xl mx-auto">
           {/* Header Section */}
           <div className="text-center mb-10">
             <p className="text-slate-400 text-sm font-bold border-2 inline-block p-2 rounded-full border-green-500">
-              Context API
+              Redux
             </p>
             <h1 className="text-4xl font-extrabold text-white tracking-tight mb-2">
               Manage Your <span className="text-green-400">Todos</span>
@@ -73,7 +46,7 @@ function Todo() {
           {/* List Section */}
           <div className="flex flex-col gap-y-4">
             {todos.length > 0 ? (
-              todos.map((todo) => (
+              arrangedTodos.map((todo: any) => (
                 <div
                   key={todo.id}
                   className="w-full transform transition-all duration-300 hover:-translate-y-1"
@@ -89,8 +62,8 @@ function Todo() {
           </div>
         </div>
       </div>
-    </TodoContextProvider>
+    </div>
   );
 }
 
-export default Todo;
+export default TodoRedux;
